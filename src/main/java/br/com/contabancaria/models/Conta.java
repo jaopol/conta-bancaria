@@ -11,7 +11,9 @@ public class Conta {
 	
 	private String id;
 	
-	private Integer numeroConta;
+	private Long numeroConta;
+	
+	private String banco;
 	
 	private String nomeCompleto;
 	
