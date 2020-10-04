@@ -28,6 +28,7 @@ public class ContaServiceImpl implements ContaService {
 		
 		if( existConta ) {
 			response.setErros( Arrays.asList( "Conta já Cadastrada" ) );
+			return response;
 		}
 		
 		conta.setBanco( "Donus" );
@@ -37,7 +38,7 @@ public class ContaServiceImpl implements ContaService {
 		try {
 			
 			Optional<Conta> contaOk = Optional.ofNullable( contaRepository.save( conta ) );
-			if( contaOk.isEmpty() ) {
+			if( contaOk.isPresent() ) {
 				response.setData( contaOk.get() );
 				response.setStatus( HttpStatus.CREATED );
 				return response;
@@ -82,5 +83,6 @@ public class ContaServiceImpl implements ContaService {
 		
 		return null;
 	}
+
 
 }
