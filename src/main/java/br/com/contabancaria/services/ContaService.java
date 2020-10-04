@@ -1,18 +1,18 @@
 package br.com.contabancaria.services;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 import br.com.contabancaria.models.Conta;
+import br.com.contabancaria.response.Response;
 
 public interface ContaService {
 	
-	Optional<Conta> abrirConta( Conta conta );
+	Response<Conta> abrirConta( Conta conta );
 	
-	Conta realizarTransferencia( Conta contaOrigem, BigDecimal valor, Conta contaDestino );
+	Response<Conta> realizarTransferencia( Conta contaOrigem, BigDecimal valor, Conta contaDestino );
 	
-	Conta realizarDeposito( Long numeroConta, BigDecimal valor );
+	Response<Conta> realizarDeposito( Long numeroConta, BigDecimal valor );
 	
-	Conta realizarRetirada( Long numeroConta, BigDecimal valor );
+	Response<Conta> realizarRetirada( Long numeroConta, BigDecimal valor );
 
 }

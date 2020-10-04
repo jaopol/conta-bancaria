@@ -20,7 +20,7 @@ public class Conta {
 	@Id
 	private String id;
 	
-	private String numeroConta;
+	private Integer numeroConta;
 	
 	private String banco;
 	
