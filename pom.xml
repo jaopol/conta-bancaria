@@ -51,7 +51,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
-		
+		<!-- Biblioteca para tratar as validações do CPF -->
+		<dependency>
+		    <groupId>br.com.caelum.stella</groupId>
+		    <artifactId>caelum-stella-core</artifactId>
+		    <version>2.1.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>

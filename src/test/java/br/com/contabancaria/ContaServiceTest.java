@@ -13,12 +13,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 
 import br.com.contabancaria.dtos.ContaDTO;
 import br.com.contabancaria.models.Conta;
 import br.com.contabancaria.repositories.ContaRepository;
 import br.com.contabancaria.response.Response;
 import br.com.contabancaria.services.impl.ContaServiceImpl;
+import br.com.contabancaria.utils.ConstantsUtil;
 
 @DisplayName( "ContaServiceTest - Testa os métodos de ContaService" )
 @SpringBootTest
@@ -47,6 +49,7 @@ class ContaServiceTest {
 		Response<Conta> contaOk = contaService.abrirConta( contaDTO.fromDtoToEntity( dto ) );
 		assertNotNull( contaOk.getData() );
 		assertEquals( contaOk.getData().getCpf(), dto.getCpf() );
+		assertEquals( contaOk.getStatus() , HttpStatus.CREATED);
 
 	}
 	
@@ -58,14 +61,50 @@ class ContaServiceTest {
 		ContaDTO dto = getContaDTO();
 		Response<Conta> result = contaService.abrirConta( contaDTO.fromDtoToEntity( dto ) );
 		assertNull( result.getData() );
-		assertEquals( result.getErros().get(0), "Conta já Cadastrada" );
+		assertEquals( result.getErros().get(0), ConstantsUtil.conta.MSG_CPF_REPETIDO  );
+
+	}
+	
+	@DisplayName( "Testa método abrirConta - CPF não informado" )
+	@Test
+	void abrirContaCpfNaoInformado() {
+		
+		ContaDTO dto = getContaDTO();
+		dto.setCpf( null );
+		Response<Conta> result = contaService.abrirConta( contaDTO.fromDtoToEntity( dto ) );
+		assertNull( result.getData() );
+		assertEquals( result.getErros().get(0), ConstantsUtil.conta.MSG_CPF_NOME_OBRIGATORIO );
+
+	}
+	
+	@DisplayName( "Testa método abrirConta - Nome não informado" )
+	@Test
+	void abrirContaNomeNaoInformado() {
+		
+		ContaDTO dto = getContaDTO();
+		dto.setNomeCompleto("");
+		Response<Conta> result = contaService.abrirConta( contaDTO.fromDtoToEntity( dto ) );
+		assertNull( result.getData() );
+		assertEquals( result.getErros().get(0), ConstantsUtil.conta.MSG_CPF_NOME_OBRIGATORIO );
+
+	}
+	
+	@DisplayName( "Testa método abrirConta - CPF inválido" )
+	@Test
+	void abrirContaCpfInvalido() {
+		
+		ContaDTO dto = getContaDTO();
+		dto.setCpf( "12345678910" );
+		Response<Conta> result = contaService.abrirConta( contaDTO.fromDtoToEntity( dto ) );
+		assertNull( result.getData() );
+		assertEquals( result.getErros().get(0), ConstantsUtil.conta.MSG_CPF_INVALIDO );
 
 	}
 	
 	private ContaDTO getContaDTO() {
 
 		return ContaDTO.builder()
-				.cpf("11111111111")
+				.cpf("73499896010")
 				.nomeCompleto("Teste Silva")
 				.build();				
 	}

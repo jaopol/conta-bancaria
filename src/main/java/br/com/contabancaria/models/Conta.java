@@ -22,8 +22,6 @@ public class Conta {
 	
 	private Integer numeroConta;
 	
-	private String banco;
-	
 	private String nomeCompleto;
 	
 	private String cpf;

@@ -16,7 +16,7 @@ public class Response<T> {
 
 	private T data;
 
-	private List<String> erros;
+	private List<String> mensagens;
 	
 	private HttpStatus status;
 
@@ -25,11 +25,11 @@ public class Response<T> {
 	}
 
 	public List<String> getErros() {
-		if (this.erros == null) {
-			this.erros = new ArrayList<String>();
+		if (this.mensagens == null) {
+			this.mensagens = new ArrayList<String>();
 		}
 
-		return this.erros;
+		return this.mensagens;
 	}
 
 }
