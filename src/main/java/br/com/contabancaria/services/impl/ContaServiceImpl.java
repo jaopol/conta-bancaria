@@ -66,23 +66,4 @@ public class ContaServiceImpl implements ContaService {
 		return response;
 	}
 
-	@Override
-	public Response<Conta> realizarTransferencia(Conta contaOrigem, BigDecimal valor, Conta contaDestino) {
-		
-		return null;
-	}
-
-	@Override
-	public Response<Conta> realizarDeposito(Long numeroConta, BigDecimal valor) {
-		
-		return null;
-	}
-
-	@Override
-	public Response<Conta> realizarRetirada(Long numeroConta, BigDecimal valor) {
-		
-		return null;
-	}
-
-
 }
