@@ -7,7 +7,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import br.com.contabancaria.enums.TipoTransacao;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,14 +30,14 @@ public class Conta {
 	
 	private BigDecimal saldo;
 	
-	private TipoTransacao tipoMovimento;
-	
-	private Instant dataTransacao;
-	
-	private BigDecimal valorTransacao;
-	
 	@CreatedDate
 	private Instant dataCriacao;
+	
+	
+	public Conta(String cpf, String nomeCompleto) {
+		this.cpf = cpf;
+		this.nomeCompleto = nomeCompleto;
+	}
 	
 
 }
