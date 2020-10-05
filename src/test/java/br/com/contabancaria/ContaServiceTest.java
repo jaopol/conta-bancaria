@@ -45,7 +45,7 @@ class ContaServiceTest {
 		Response<Conta> contaOk = contaService.abrirConta( dto.fromDtoToEntity() );
 		assertNotNull( contaOk.getData() );
 		assertEquals( contaOk.getData().getCpf(), dto.getCpf() );
-		assertEquals( contaOk.getStatus() , HttpStatus.CREATED);
+		assertEquals( contaOk.getStatus() , HttpStatus.CREATED );
 
 	}
 	
@@ -57,7 +57,7 @@ class ContaServiceTest {
 		ContaDTO dto = getContaDTO();
 		Response<Conta> result = contaService.abrirConta( dto.fromDtoToEntity() );
 		assertNull( result.getData() );
-		assertEquals( result.getMensagens().get(0), ConstantsUtil.conta.MSG_CPF_REPETIDO  );
+		assertEquals( result.getMensagens().get(0), ConstantsUtil.Conta.MSG_CPF_REPETIDO  );
 
 	}
 	
@@ -69,7 +69,7 @@ class ContaServiceTest {
 		dto.setCpf( null );
 		Response<Conta> result = contaService.abrirConta( dto.fromDtoToEntity() );
 		assertNull( result.getData() );
-		assertEquals( result.getMensagens().get(0), ConstantsUtil.conta.MSG_CPF_NOME_OBRIGATORIO );
+		assertEquals( result.getMensagens().get(0), ConstantsUtil.Conta.MSG_CPF_NOME_OBRIGATORIO );
 
 	}
 	
@@ -81,7 +81,7 @@ class ContaServiceTest {
 		dto.setNomeCompleto("");
 		Response<Conta> result = contaService.abrirConta( dto.fromDtoToEntity() );
 		assertNull( result.getData() );
-		assertEquals( result.getMensagens().get(0), ConstantsUtil.conta.MSG_CPF_NOME_OBRIGATORIO );
+		assertEquals( result.getMensagens().get(0), ConstantsUtil.Conta.MSG_CPF_NOME_OBRIGATORIO );
 
 	}
 	
@@ -93,7 +93,7 @@ class ContaServiceTest {
 		dto.setCpf( "12345678910" );
 		Response<Conta> result = contaService.abrirConta( dto.fromDtoToEntity() );
 		assertNull( result.getData() );
-		assertEquals( result.getMensagens().get(0), ConstantsUtil.conta.MSG_CPF_INVALIDO );
+		assertEquals( result.getMensagens().get(0), ConstantsUtil.Conta.MSG_CPF_INVALIDO );
 
 	}
 	

@@ -1,8 +1,8 @@
 package br.com.contabancaria.utils;
 
-public abstract class ConstantsUtil {
+public interface ConstantsUtil {
 	
-	public abstract class conta{
+	public interface Conta{
 		//MSGs conta
 		public static final String MSG_ERROR_DEFAULT = "Ocorreu um erro. Tente novamente mais tarde!";
 		public static final String MSG_CPF_NOME_OBRIGATORIO = "CPF e nome completo são obrigatórios para abrir a conta!";
@@ -11,5 +11,14 @@ public abstract class ConstantsUtil {
 		public static final String MSG_CADASTRO_SUCESSO = "Conta cadastrada com sucesso!";
 		
 	}
+	
+ 	public interface MovimentoConta{
+ 		//MSGs MovimentoConta
+		public static final String MSG_ERROR_DEFAULT = "Ocorreu um erro. Tente novamente mais tarde!";
+		public static final String MSG_DEPOSITO_OK = "Deposito realizado com sucesso!";
+		public static final String MSG_CONTA_INVALIDA = "Transação não permitida! Conta não cadastrada ou invalida!";
+ 		
+ 	}
+
 
 }

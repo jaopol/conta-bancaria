@@ -1,7 +1,7 @@
 package br.com.contabancaria.models;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -19,11 +19,23 @@ public class MovimentoConta {
 	
 	private TipoTransacao tipoMovimento;
 	
-	private Instant dataTransacao;
+	private Date dataTransacao;
 	
 	private BigDecimal valorTransacao;
 	
 	@DBRef
 	private Conta conta;
+	
+	
+	public MovimentoConta() {
+
+	}
+	
+	public MovimentoConta( Conta conta, BigDecimal valorTransacao, TipoTransacao tipoTransacao, Date dataTransacao ) {
+		this.conta = conta;
+		this.dataTransacao = dataTransacao;
+		this.tipoMovimento = tipoTransacao;
+		this.valorTransacao = valorTransacao;
+	}
 
 }

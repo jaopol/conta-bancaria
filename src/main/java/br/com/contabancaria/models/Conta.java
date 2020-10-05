@@ -1,11 +1,11 @@
 package br.com.contabancaria.models;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.util.Date;
 
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.util.StringUtils;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -35,8 +35,7 @@ public class Conta {
 	private BigDecimal saldo;
 	
 	@ApiModelProperty(value = "Data de criação da conta")
-	@CreatedDate
-	private Instant dataCriacao;
+	private Date dataCriacao;
 	
 	
 	public Conta(String cpf, String nomeCompleto) {
@@ -44,5 +43,12 @@ public class Conta {
 		this.nomeCompleto = nomeCompleto;
 	}
 	
+	public String getCpfSemMascara(){
+		
+		if( !StringUtils.isEmpty( this.cpf ) ) {
+			return this.cpf.replace(".", "").replace("-", "" );
+		}
+		return this.cpf;
+	}
 
 }

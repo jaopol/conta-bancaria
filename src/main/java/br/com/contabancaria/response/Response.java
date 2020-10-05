@@ -4,6 +4,7 @@
 package br.com.contabancaria.response;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,12 @@ public class Response<T> {
 		}
 
 		return this.mensagens;
+	}
+	
+	public Response(String msg, HttpStatus status, T data) {
+		this.setData( data );
+		this.setMensagens( Arrays.asList( msg ) );
+		this.setStatus( status );
 	}
 
 }

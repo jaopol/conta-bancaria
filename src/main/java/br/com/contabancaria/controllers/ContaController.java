@@ -27,23 +27,21 @@ public class ContaController {
 	@ApiOperation( value = "Verifica disponibilidade da API" )	
 	@GetMapping("/check")
 	public String check() {
-		return "API conta ok!"; 
+		return "API conta bancaria ok!"; 
 	}
 	
 	@ApiOperation( value = "Cadastrar uma nova conta" )
 	@ApiResponses(value = {
-		    @ApiResponse(code = 201, message = ConstantsUtil.conta.MSG_CADASTRO_SUCESSO ),
-		    @ApiResponse(code = 412, message = ConstantsUtil.conta.MSG_CPF_INVALIDO ),
-		    @ApiResponse(code = 412, message = ConstantsUtil.conta.MSG_CPF_NOME_OBRIGATORIO ),
-		    @ApiResponse(code = 412, message = ConstantsUtil.conta.MSG_CPF_REPETIDO ),
-		    @ApiResponse(code = 400, message = ConstantsUtil.conta.MSG_ERROR_DEFAULT),
+		    @ApiResponse(code = 201, message = ConstantsUtil.Conta.MSG_CADASTRO_SUCESSO ),
+		    @ApiResponse(code = 412, message = "Quando não atender aos requisitos mínimos" ),
+		    @ApiResponse(code = 400, message = "Quando ocorrer algum problema na abertura da conta"),
 		})
 	@PostMapping( "/abrirConta" )
 	public ResponseEntity<Response<Conta>> abrirConta( @RequestBody ContaDTO contaDTO ){
 		
 		Response<Conta> response = contaService.abrirConta( contaDTO.fromDtoToEntity() );
 		
-		return ResponseEntity.ok( response );
+		return ResponseEntity.status( response.getStatus() ).body( response );
 	}
 
 }
