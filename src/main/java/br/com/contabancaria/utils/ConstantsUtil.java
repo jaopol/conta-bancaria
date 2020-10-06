@@ -17,6 +17,8 @@ public interface ConstantsUtil {
 		public static final String MSG_ERROR_DEFAULT = "Ocorreu um erro. Tente novamente mais tarde!";
 		public static final String MSG_DEPOSITO_OK = "Deposito realizado com sucesso!";
 		public static final String MSG_CONTA_INVALIDA = "Transação não permitida! Conta não cadastrada ou invalida!";
+		public static final String MSG_RETIRADA_INVALIDA = "Saldo indisponível para retirada!";
+		public static final String MSG_RETIRADA_OK = "Retirada realizada com sucesso!";
  		
  	}
 

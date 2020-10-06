@@ -65,7 +65,35 @@ public class MovimentoContaServiceImpl implements MovimentoContaService {
 	@Override
 	public Response<MovimentoContaReturnDTO> realizarRetirada(Integer numeroConta, BigDecimal valor) {
 		
-		return null;
+		Conta conta = contaRepository.findByNumeroConta( numeroConta );
+		
+		if( conta == null ) {
+			return new Response<MovimentoContaReturnDTO>( ConstantsUtil.MovimentoConta.MSG_CONTA_INVALIDA , HttpStatus.PRECONDITION_FAILED, null );
+		}
+		//Na retirada cobra 1% no valor retirado
+		BigDecimal valorRetirada = valor.add( valor.multiply( new BigDecimal( 0.01 ) ) );
+		BigDecimal novoSaldo = conta.getSaldo().subtract( new BigDecimal( valorRetirada.doubleValue() ) );
+		
+		if( novoSaldo.compareTo( BigDecimal.ZERO ) < 0 ) {
+			return new Response<MovimentoContaReturnDTO>( ConstantsUtil.MovimentoConta.MSG_RETIRADA_INVALIDA, HttpStatus.PRECONDITION_FAILED, null );
+		}
+		
+		MovimentoConta movimentoConta = new MovimentoConta( conta, valor, TipoTransacao.R, new Date() );
+		conta.setSaldo(novoSaldo);
+		try {
+			
+			movimentoContaRepository.save( movimentoConta );
+			contaRepository.save( conta );
+			
+			MovimentoContaReturnDTO returnDTO = new MovimentoContaReturnDTO( numeroConta, conta.getSaldo(), 
+												movimentoConta.getTipoMovimento(), movimentoConta.getValorTransacao()  );
+			
+			return new Response<MovimentoContaReturnDTO>( ConstantsUtil.MovimentoConta.MSG_RETIRADA_OK, HttpStatus.CREATED, returnDTO );
+			
+		}catch (Exception e) {
+			return new Response<MovimentoContaReturnDTO>( ConstantsUtil.MovimentoConta.MSG_ERROR_DEFAULT , HttpStatus.BAD_REQUEST, null );
+		}
+		
 	}
 
 }

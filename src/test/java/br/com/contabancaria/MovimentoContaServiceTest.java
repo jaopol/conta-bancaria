@@ -48,12 +48,11 @@ class MovimentoContaServiceTest {
 	
 	@DisplayName( "Testa método realizarDeposito - Ok" )
 	@Test
-	void realizarDeposito() {
+	void realizarDepositoOk() {
 		
 		when( contaRepository.findByNumeroConta( any( Integer.class ) ) ).thenReturn( getConta() );
 
 		MovimentoConta movimento = getMovimentoConta();
-		movimento.setTipoMovimento( TipoTransacao.D );
 		movimento.setValorTransacao( new BigDecimal( 50 ) );
 		
 		when( movimentoContaRepository.save( any( MovimentoConta.class) ) ).thenReturn( movimento );
@@ -64,6 +63,26 @@ class MovimentoContaServiceTest {
 		assertEquals( deposito.getData().getTipoTransacao(), TipoTransacao.D );
 		assertEquals( deposito.getStatus() , HttpStatus.CREATED);
 		assertEquals( deposito.getData().getNovoSaldo(), new BigDecimal( 150.25 ) );
+
+	}
+	
+	@DisplayName( "Testa método realizarRetirada - Ok" )
+	@Test
+	void realizarRetiradaOk() {
+		
+		when( contaRepository.findByNumeroConta( any( Integer.class ) ) ).thenReturn( getConta() );
+
+		MovimentoConta movimento = getMovimentoConta();
+		movimento.setValorTransacao( new BigDecimal( 50 ) );
+		
+		when( movimentoContaRepository.save( any( MovimentoConta.class) ) ).thenReturn( movimento );
+		
+		Response<MovimentoContaReturnDTO> deposito = movimentoContaService.realizarRetirada( 1, movimento.getValorTransacao() );
+		
+		assertNotNull( deposito.getData() );
+		assertEquals( deposito.getData().getTipoTransacao(), TipoTransacao.R );
+		assertEquals( deposito.getStatus() , HttpStatus.CREATED);
+		assertEquals( deposito.getData().getNovoSaldo(), new BigDecimal( 49.5 ) );
 
 	}
 	
