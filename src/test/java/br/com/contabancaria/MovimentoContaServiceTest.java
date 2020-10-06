@@ -1,5 +1,6 @@
 package br.com.contabancaria;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -25,6 +26,7 @@ import br.com.contabancaria.repositories.ContaRepository;
 import br.com.contabancaria.repositories.MovimentoContaRepository;
 import br.com.contabancaria.response.Response;
 import br.com.contabancaria.services.impl.MovimentoContaServiceImpl;
+import br.com.contabancaria.utils.ConstantsUtil;
 
 
 @DisplayName( "ContaServiceTest - Testa os métodos de ContaService" )
@@ -85,6 +87,58 @@ class MovimentoContaServiceTest {
 		assertEquals( deposito.getData().getNovoSaldo(), new BigDecimal( 49.5 ) );
 
 	}
+	
+	@DisplayName( "Testa método realizarRetirada - saldo negativo" )
+	@Test
+	void realizarRetiradaSaldoNegativo() {
+		
+		Conta conta = getConta();
+		conta.setSaldo( new BigDecimal( 50.0 ) );
+		
+		when( contaRepository.findByNumeroConta( any( Integer.class ) ) ).thenReturn( conta );
+
+		MovimentoConta movimento = getMovimentoConta();
+		movimento.setValorTransacao( new BigDecimal( 50 ) );
+		
+		when( movimentoContaRepository.save( any( MovimentoConta.class) ) ).thenReturn( movimento );
+		
+		Response<MovimentoContaReturnDTO> deposito = movimentoContaService.realizarRetirada( 1, movimento.getValorTransacao() );
+		
+		assertNull( deposito.getData() );
+		assertEquals( deposito.getStatus() , HttpStatus.PRECONDITION_FAILED);
+		assertEquals( deposito.getMensagens().get(0), ConstantsUtil.MovimentoConta.MSG_RETIRADA_INVALIDA );
+
+	}
+
+	@DisplayName( "Testa método realizarRetirada - conta inválida" )
+	@Test
+	void realizarRetiradaContaInvalida() {
+		
+		when( contaRepository.findByNumeroConta( any( Integer.class ) ) ).thenReturn( null );
+
+		
+		Response<MovimentoContaReturnDTO> deposito = movimentoContaService.realizarRetirada( 1, new BigDecimal(50.0) );
+		
+		assertNull( deposito.getData() );
+		assertEquals( deposito.getStatus() , HttpStatus.PRECONDITION_FAILED);
+		assertEquals( deposito.getMensagens().get(0), ConstantsUtil.MovimentoConta.MSG_CONTA_INVALIDA );
+
+	}
+	
+	@DisplayName( "Testa método realizarDeposito - conta inválida" )
+	@Test
+	void realizarDepositoContaInvalida() {
+		
+		when( contaRepository.findByNumeroConta( any( Integer.class ) ) ).thenReturn( null );
+	
+		Response<MovimentoContaReturnDTO> deposito = movimentoContaService.realizarDeposito( 1, new BigDecimal(50.0) );
+		
+		assertNull( deposito.getData() );
+		assertEquals( deposito.getStatus() , HttpStatus.PRECONDITION_FAILED);
+		assertEquals( deposito.getMensagens().get(0), ConstantsUtil.MovimentoConta.MSG_CONTA_INVALIDA );
+
+	}
+
 	
 	private MovimentoConta getMovimentoConta() {
 		MovimentoConta movimentoConta = new MovimentoConta();
