@@ -1,6 +1,8 @@
 package br.com.contabancaria.services.impl;
 
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -44,6 +46,7 @@ public class ContaServiceImpl implements ContaService {
 		
 		conta.setNumeroConta( getNumeroConta() );
 		conta.setSaldo( BigDecimal.ZERO );
+		conta.setDataCriacao( new Date() );
 		
 		try {
 			
@@ -84,6 +87,12 @@ public class ContaServiceImpl implements ContaService {
 			return false;
 		}
 		
+	}
+
+	@Override
+	public List<Conta> findAll() {
+		
+		return contaRepository.findAll();
 	}
 
 }

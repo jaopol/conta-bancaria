@@ -1,5 +1,8 @@
 package br.com.contabancaria.controllers;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.contabancaria.dtos.ContaDTO;
+import br.com.contabancaria.dtos.ContaReturnDTO;
 import br.com.contabancaria.models.Conta;
 import br.com.contabancaria.response.Response;
 import br.com.contabancaria.services.ContaService;
@@ -42,6 +46,16 @@ public class ContaController {
 		Response<Conta> response = contaService.abrirConta( contaDTO.fromDtoToEntity() );
 		
 		return ResponseEntity.status( response.getStatus() ).body( response );
+	}
+	
+	@ApiOperation( value = "Recupera as contas cadastradas" )	
+	@GetMapping("/contas")
+	public ResponseEntity<List<ContaReturnDTO>> recuperaContas() {
+		
+		List<Conta> contas = contaService.findAll();
+		List<ContaReturnDTO> listReturnDTO = contas.stream().map( conta -> new ContaReturnDTO( conta ) ).collect( Collectors.toList() );
+		
+		return ResponseEntity.ok( listReturnDTO ); 
 	}
 
 }
