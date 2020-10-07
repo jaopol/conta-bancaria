@@ -19,6 +19,9 @@ public interface ConstantsUtil {
 		public static final String MSG_CONTA_INVALIDA = "Transação não permitida! Conta não cadastrada ou invalida!";
 		public static final String MSG_RETIRADA_INVALIDA = "Saldo indisponível para retirada!";
 		public static final String MSG_RETIRADA_OK = "Retirada realizada com sucesso!";
+		public static final String MSG_CONTA_ORIGEM_INVALIDA = "Transação não permitida! Conta de origem não cadastrada ou invalida!";
+		public static final String MSG_CONTA_DESTINO_INVALIDA = "Transação não permitida! Conta de destino não cadastrada ou invalida!";
+		public static final String MSG_TRANSFERENCIA_OK = "Transferência realizada com sucesso!";;
  		
  	}
 

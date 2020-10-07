@@ -41,6 +41,7 @@ class MovimentoContaServiceTest {
 	
 	@InjectMocks
 	private MovimentoContaServiceImpl movimentoContaService;
+
 	
 	@BeforeEach
 	void init() {
@@ -136,6 +137,42 @@ class MovimentoContaServiceTest {
 		assertNull( deposito.getData() );
 		assertEquals( deposito.getStatus() , HttpStatus.PRECONDITION_FAILED);
 		assertEquals( deposito.getMensagens().get(0), ConstantsUtil.MovimentoConta.MSG_CONTA_INVALIDA );
+
+	}
+	
+	@DisplayName( "Testa método realizarTransferencia - Ok" )
+	@Test
+	void realizarTransferenciaContaOk() {
+		
+		when( contaRepository.findByNumeroConta( any( Integer.class ) ) ).thenReturn( getConta() );	
+	
+		MovimentoConta movimento = getMovimentoConta();
+		movimento.setValorTransacao( new BigDecimal( 50 ) );
+		
+		when( movimentoContaRepository.save( any( MovimentoConta.class) ) ).thenReturn( movimento );
+		
+		Response<MovimentoContaReturnDTO> deposito = movimentoContaService.realizarTransferencia( getConta().getNumeroConta(), movimento.getValorTransacao(), 2 );
+		
+		assertNotNull( deposito.getData() );
+		assertEquals( deposito.getData().getTipoTransacao(), TipoTransacao.T );
+		assertEquals( deposito.getStatus() , HttpStatus.CREATED);
+		assertEquals( deposito.getData().getNovoSaldo(),  new BigDecimal( 50.0 ) );
+
+	}
+	
+	@DisplayName( "Testa método realizarTransferencia - Ok" )
+	@Test
+	void realizarTransferenciaContaInvalida() {
+		
+		when( contaRepository.findByNumeroConta( any( Integer.class ) ) ).thenReturn( null );	
+	
+		MovimentoConta movimento = getMovimentoConta();
+		
+		Response<MovimentoContaReturnDTO> deposito = movimentoContaService.realizarTransferencia( getConta().getNumeroConta(), movimento.getValorTransacao(), 2 );
+		
+		assertNull( deposito.getData() );
+		assertEquals( deposito.getStatus() , HttpStatus.PRECONDITION_FAILED);
+		assertEquals( deposito.getMensagens().get(0), ConstantsUtil.MovimentoConta.MSG_CONTA_ORIGEM_INVALIDA );
 
 	}
 

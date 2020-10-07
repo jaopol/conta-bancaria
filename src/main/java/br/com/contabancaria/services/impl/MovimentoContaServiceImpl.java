@@ -27,9 +27,41 @@ public class MovimentoContaServiceImpl implements MovimentoContaService {
 	private ContaRepository contaRepository;
 
 	@Override
-	public Response<MovimentoContaReturnDTO> realizarTransferencia(Conta contaOrigem, BigDecimal valor, Conta contaDestino) {
+	public Response<MovimentoContaReturnDTO> realizarTransferencia(Integer numeroContaOrigem, BigDecimal valor, Integer numeroContaDestino) {
 		
-		return null;
+		Conta contaOrigem = contaRepository.findByNumeroConta( numeroContaOrigem );
+		
+		if( contaOrigem == null ) {
+			return new Response<MovimentoContaReturnDTO>( ConstantsUtil.MovimentoConta.MSG_CONTA_ORIGEM_INVALIDA , HttpStatus.PRECONDITION_FAILED, null );
+		}
+		
+		Conta contaDestino = contaRepository.findByNumeroConta( numeroContaDestino );
+		
+		if( contaDestino == null ) {
+			return new Response<MovimentoContaReturnDTO>( ConstantsUtil.MovimentoConta.MSG_CONTA_DESTINO_INVALIDA , HttpStatus.PRECONDITION_FAILED, null );
+		}
+		
+		MovimentoConta movimentoContaOrigem = new MovimentoConta( contaOrigem, valor, TipoTransacao.T, new Date() );
+		BigDecimal novoSaldoOrigem = contaOrigem.getSaldo().subtract( movimentoContaOrigem.getValorTransacao() ); 
+		contaOrigem.setSaldo( novoSaldoOrigem );
+		BigDecimal novoSaldoDestino = contaDestino.getSaldo().add( movimentoContaOrigem.getValorTransacao() );
+		contaDestino.setSaldo( novoSaldoDestino	 );
+		
+		try {
+			
+			movimentoContaRepository.save( movimentoContaOrigem );
+			contaRepository.save( contaOrigem );
+			contaRepository.save( contaDestino );
+			
+			MovimentoContaReturnDTO returnDTO = new MovimentoContaReturnDTO( numeroContaOrigem, novoSaldoOrigem, 
+												movimentoContaOrigem.getTipoMovimento(), movimentoContaOrigem.getValorTransacao()  );
+			
+			return new Response<MovimentoContaReturnDTO>( ConstantsUtil.MovimentoConta.MSG_TRANSFERENCIA_OK, HttpStatus.CREATED, returnDTO );
+			
+		}catch (Exception e) {
+			return new Response<MovimentoContaReturnDTO>( ConstantsUtil.MovimentoConta.MSG_ERROR_DEFAULT , HttpStatus.BAD_REQUEST, null );
+		}
+		
 	}
 
 	@Override
