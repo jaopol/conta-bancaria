@@ -14,11 +14,11 @@ public class MovimentoContaDTO {
 	@ApiModelProperty( value = "Número da conta de origem" )
 	private Integer numeroContaOrigem;
 	
-	@NonNull
-	@ApiModelProperty( value = "Valor da transação" )
+	@ApiModelProperty( value = "Número da conta de destino - Obrigatório somente para transferência" )
 	private Integer numeroContaDestino;
 	
-	@ApiModelProperty( value = "Número da conta de destino - Obrigatório somente para transferência" )
+	@NonNull
+	@ApiModelProperty( value = "Valor da transação" )
 	private BigDecimal valorTransacao;
 	
 

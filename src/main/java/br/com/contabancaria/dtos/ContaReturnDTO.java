@@ -32,7 +32,7 @@ public class ContaReturnDTO {
 		this.numeroConta = conta.getNumeroConta().toString();
 		this.nomeCompleto = conta.getNomeCompleto();
 		this.cpf = conta.getCpfSemMascara();
-		this.saldo = saldo != null ? saldo.toString() : "0";
+		this.saldo = conta.getSaldo() != null ? conta.getSaldo().toString() : "0";
 		this.dataCriacao = conta.getDataCriacao();
 	}
 	

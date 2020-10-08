@@ -29,12 +29,44 @@ public class MovimentoContaController {
 		    @ApiResponse(code = 412, message = "Quando não atender aos requisitos mínimos" ),
 		    @ApiResponse(code = 400, message = "Quando ocorrer algum problema na transação"),
 		})
-	@PostMapping( "/realizarTransferencia" )
+	@PostMapping( "/transferencia" )
 	public ResponseEntity<Response<MovimentoContaReturnDTO>> realizarTransferencia( @RequestBody MovimentoContaDTO movimentoConta ){
 		
 		Response<MovimentoContaReturnDTO> movimentoContaResponse = movimentoContaService.realizarTransferencia( movimentoConta.getNumeroContaOrigem() , 
 													movimentoConta.getValorTransacao(),
 													movimentoConta.getNumeroContaDestino() );
+		
+		return ResponseEntity.status( movimentoContaResponse.getStatus() ).body( movimentoContaResponse );
+	}
+	
+	@ApiOperation( value = "Realizar um deposito na conta" )
+	@ApiResponses(value = {
+		    @ApiResponse(code = 201, message = ConstantsUtil.MovimentoConta.MSG_DEPOSITO_OK ),
+		    @ApiResponse(code = 412, message = "Quando não atender aos requisitos mínimos" ),
+		    @ApiResponse(code = 400, message = "Quando ocorrer algum problema na transação"),
+		})
+	@PostMapping( "/deposito" )
+	public ResponseEntity<Response<MovimentoContaReturnDTO>> realizarDeposito( @RequestBody MovimentoContaDTO movimentoConta ){
+		
+		Response<MovimentoContaReturnDTO> movimentoContaResponse = movimentoContaService.realizarDeposito( 
+													movimentoConta.getNumeroContaOrigem(), 
+													movimentoConta.getValorTransacao() );
+		
+		return ResponseEntity.status( movimentoContaResponse.getStatus() ).body( movimentoContaResponse );
+	}
+	
+	@ApiOperation( value = "Realizar uma retirada na conta" )
+	@ApiResponses(value = {
+		    @ApiResponse(code = 201, message = ConstantsUtil.MovimentoConta.MSG_DEPOSITO_OK ),
+		    @ApiResponse(code = 412, message = "Quando não atender aos requisitos mínimos" ),
+		    @ApiResponse(code = 400, message = "Quando ocorrer algum problema na transação"),
+		})
+	@PostMapping( "/retirada" )
+	public ResponseEntity<Response<MovimentoContaReturnDTO>> realizarRetirada( @RequestBody MovimentoContaDTO movimentoConta ){
+		
+		Response<MovimentoContaReturnDTO> movimentoContaResponse = movimentoContaService.realizarRetirada( 
+													movimentoConta.getNumeroContaOrigem(), 
+													movimentoConta.getValorTransacao() );
 		
 		return ResponseEntity.status( movimentoContaResponse.getStatus() ).body( movimentoContaResponse );
 	}
