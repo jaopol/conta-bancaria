@@ -65,7 +65,7 @@ class MovimentoContaServiceTest {
 		assertNotNull( deposito.getData() );
 		assertEquals( deposito.getData().getTipoTransacao(), TipoTransacao.D );
 		assertEquals( deposito.getStatus() , HttpStatus.CREATED);
-		assertEquals( deposito.getData().getNovoSaldo(), new BigDecimal( 150.25 ) );
+		assertEquals( deposito.getData().getNovoSaldoConta(), new BigDecimal( 150.25 ) );
 
 	}
 	
@@ -85,7 +85,7 @@ class MovimentoContaServiceTest {
 		assertNotNull( deposito.getData() );
 		assertEquals( deposito.getData().getTipoTransacao(), TipoTransacao.R );
 		assertEquals( deposito.getStatus() , HttpStatus.CREATED);
-		assertEquals( deposito.getData().getNovoSaldo(), new BigDecimal( 49.5 ) );
+		assertEquals( deposito.getData().getNovoSaldoConta(), new BigDecimal( 49.5 ) );
 
 	}
 	
@@ -156,7 +156,7 @@ class MovimentoContaServiceTest {
 		assertNotNull( deposito.getData() );
 		assertEquals( deposito.getData().getTipoTransacao(), TipoTransacao.T );
 		assertEquals( deposito.getStatus() , HttpStatus.CREATED);
-		assertEquals( deposito.getData().getNovoSaldo(),  new BigDecimal( 50.0 ) );
+		assertEquals( deposito.getData().getNovoSaldoConta(),  new BigDecimal( 50.0 ) );
 
 	}
 	
