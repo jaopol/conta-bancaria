@@ -40,7 +40,7 @@ public class ContaController {
 		    @ApiResponse(code = 412, message = "Quando não atender aos requisitos mínimos" ),
 		    @ApiResponse(code = 400, message = "Quando ocorrer algum problema na abertura da conta"),
 		})
-	@PostMapping( "/abrirConta" )
+	@PostMapping( "/abrir" )
 	public ResponseEntity<Response<Conta>> abrirConta( @RequestBody ContaDTO contaDTO ){
 		
 		Response<Conta> response = contaService.abrirConta( contaDTO.fromDtoToEntity() );
@@ -49,7 +49,7 @@ public class ContaController {
 	}
 	
 	@ApiOperation( value = "Recupera as contas cadastradas" )	
-	@GetMapping("/contas")
+	@GetMapping()
 	public ResponseEntity<List<ContaReturnDTO>> recuperaContas() {
 		
 		List<Conta> contas = contaService.findAll();
