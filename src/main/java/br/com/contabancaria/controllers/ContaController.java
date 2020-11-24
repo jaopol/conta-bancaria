@@ -1,5 +1,6 @@
 package br.com.contabancaria.controllers;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +32,7 @@ public class ContaController {
 	@ApiOperation( value = "Verifica disponibilidade da API" )	
 	@GetMapping("/check")
 	public String check() {
-		return "API conta bancaria ok!"; 
+		return "API conta bancaria ok! " + new Date(); 
 	}
 	
 	@ApiOperation( value = "Cadastrar uma nova conta" )
@@ -40,7 +41,7 @@ public class ContaController {
 		    @ApiResponse(code = 412, message = "Quando não atender aos requisitos mínimos" ),
 		    @ApiResponse(code = 400, message = "Quando ocorrer algum problema na abertura da conta"),
 		})
-	@PostMapping( "/abrir" )
+	@PostMapping( )
 	public ResponseEntity<Response<Conta>> abrirConta( @RequestBody ContaDTO contaDTO ){
 		
 		Response<Conta> response = contaService.abrirConta( contaDTO.fromDtoToEntity() );
